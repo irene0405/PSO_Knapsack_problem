@@ -1,10 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include <random>
 #include <iomanip>
 
-#define POPULATION 100
+#define ROUND 100
 #define GENERATION 100
-#define ROUND 10
+#define POPULATION 100
 #define DIMENSION 10
 #define MAX_POSITION 10
 #define MIN_POSITION 0
@@ -137,19 +138,30 @@ void move() {
 
 int main() {
     int count_620 = 0, count_615 = 0, count_610 = 0, count_605 = 0, count_600 = 0, count_under_600 = 0;
-    int total = 0;
+    int best_value = INT_MIN, worst_value = INT_MAX, total = 0;
+
     // count execution time
     auto start = chrono::steady_clock::now();
 
-    for (int j = 0; j < ROUND; j++) {
+    ofstream ofs;
+    ofs.open("PSO_Knapsack_problem-output.txt");
+    ofs << "Round: " << ROUND << endl;
+    ofs << "Generation: " << GENERATION << endl;
+    ofs << "Population: " << POPULATION << endl;
+    ofs << "Max velocity: " << MAX_VELOCITY << endl;
+    ofs << "Min velocity: " << MIN_VELOCITY << endl;
+    ofs << "Inertia weight: " << w << endl;
+    ofs << "Particle best weight: " << c1 << endl;
+    ofs << "Globe best weight: " << c2 << endl;
+    ofs << "============================" << endl;
 
+    for (int j = 0; j < ROUND; j++) {
         initialize();
         for (int i = 0; i < GENERATION; i++) {
             calcFitness();
             update();
             move();
         }
-
         if (gBestFitness == 620) {
             count_620++;
         } else if (gBestFitness >= 615 && gBestFitness < 620) {
@@ -164,21 +176,31 @@ int main() {
             count_under_600++;
         }
         total += gBestFitness;
-        cout << "Round: " << j + 1 << " / " << ROUND << " --- " << gBestFitness << endl;
+        if (gBestFitness > best_value) {
+            best_value = gBestFitness;
+        } else if (gBestFitness < worst_value) {
+            worst_value = gBestFitness;
+        }
+        ofs << "Round: " << j + 1 << " / " << ROUND << " --- " << gBestFitness << endl;
     }
 
-    cout << endl << "      620: " << setw(2) << count_620 << " time(s)";
-    cout << endl << "615 ~ 620: " << setw(2) << count_615 << " time(s)";
-    cout << endl << "610 ~ 615: " << setw(2) << count_610 << " time(s)";
-    cout << endl << "605 ~ 610: " << setw(2) << count_605 << " time(s)";
-    cout << endl << "600 ~ 605: " << setw(2) << count_600 << " time(s)";
-    cout << endl << "under 600: " << setw(2) << count_under_600 << " time(s)" << endl;
-    cout << endl << "Average value: " << (float) total / ROUND << endl;
-
+    ofs << "============================" << endl;
+    ofs << "      620 :" << setw(3) << count_620 << " time(s)" << endl;
+    ofs << "[615, 620):" << setw(3) << count_615 << " time(s)" << endl;
+    ofs << "[610, 615):" << setw(3) << count_610 << " time(s)" << endl;
+    ofs << "[605, 610):" << setw(3) << count_605 << " time(s)" << endl;
+    ofs << "[600, 605):" << setw(3) << count_600 << " time(s)" << endl;
+    ofs << "under 600 :" << setw(3) << count_under_600 << " time(s)" << endl;
+    ofs << "============================" << endl;
+    ofs << "Average value: " << (float) total / ROUND << endl;
+    ofs << "Worst value: " << worst_value << endl;
+    ofs << "Best value: " << best_value << endl;
+    ofs << "============================" << endl;
 
     // count execution time
     auto end = chrono::steady_clock::now();
-    cout << endl << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
+    cout << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
 
-    return 0;
+    ofs << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
+    ofs.close();
 }
