@@ -144,7 +144,7 @@ int main() {
     auto start = chrono::steady_clock::now();
 
     ofstream ofs;
-    ofs.open("PSO_Knapsack_problem-output.txt");
+    ofs.open("output.txt");
     ofs << "Round: " << ROUND << endl;
     ofs << "Generation: " << GENERATION << endl;
     ofs << "Population: " << POPULATION << endl;
