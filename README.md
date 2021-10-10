@@ -114,7 +114,5 @@ If velocity < MIN_VELOCITY:
     velocity = MIN_VELOCITY;
 
 /* Update position*/
-for (int i = 0; i < DIMENSION; i++) {
-    position[i] += velocity[i];
-}
+position[i] += velocity[i];
 ```
