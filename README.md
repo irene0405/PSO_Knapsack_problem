@@ -98,9 +98,9 @@ If it is overweight, remove the heaviest item：
 
 ```
 /* Update particle best and globe best */
-If fitness > pBestFitness:  
+If fitness > pBestFitness:
     pBestFitness = fitness;
-IF pBestFitness > gBestFitness:  
+If pBestFitness > gBestFitness:
     gBestFitness = pBestFitness;
     
 /* Update velocity */
@@ -108,13 +108,10 @@ velocity = w * lastVelocity +
           c1 * random(0, 1) * (pBestPosition - position) +
           c2 * random(0, 1) * (gBestPosition - position);
 
-if (velocity > MAX_VELOCITY) {
+If velocity > MAX_VELOCITY:
     velocity = MAX_VELOCITY;
-}
-
-if (velocity < MIN_VELOCITY) {
+If velocity < MIN_VELOCITY:
     velocity = MIN_VELOCITY;
-}
 
 /* Update position*/
 for (int i = 0; i < DIMENSION; i++) {
