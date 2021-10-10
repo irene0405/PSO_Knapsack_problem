@@ -69,7 +69,7 @@ int fitness;
 
 ### FlowChart
 
-![Flowchart](./img/Flowchart.png)
+<img src="./img/Flowchart.png" height="260"/>
 
 #### Initialization
 
